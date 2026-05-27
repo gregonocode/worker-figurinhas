@@ -16,9 +16,11 @@
     "resend": "^6.6.0",
     "sharp": "^0.34.3",
     "tsx": "^4.19.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "ws": "^8.21.0"
   },
   "devDependencies": {
-    "@types/node": "^22.14.1"
+    "@types/node": "^22.14.1",
+    "@types/ws": "^8.18.1"
   }
 }
