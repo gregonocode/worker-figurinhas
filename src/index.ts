@@ -58,13 +58,13 @@ async function executarCiclo() {
 
   const pedido = await claimProximoPedido();
 
-  if (!pedido) {
+  if (!pedido || !pedido.id) {
     console.log("[worker] Nenhum pedido pago aguardando processamento.");
     return;
   }
 
   console.log(`[worker] Pedido encontrado: ${pedido.id}`);
-  console.log("[worker] Iniciando processamento do pedido...");
+  console.log(`[worker] Iniciando processamento do pedido ${pedido.id}...`);
 
   await processarPedido(pedido);
 

@@ -109,7 +109,11 @@ export async function claimProximoPedido() {
     throw error;
   }
 
-  return data as PedidoFigurinha | null;
+  if (!data || !data.id) {
+    return null;
+  }
+
+  return data as PedidoFigurinha;
 }
 
 export async function processarPedido(pedido: PedidoFigurinha) {
