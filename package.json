@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js",
+    "build": "echo \"no build needed\"",
+    "start": "tsx src/index.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -15,10 +15,10 @@
     "openai": "^6.9.1",
     "resend": "^6.6.0",
     "sharp": "^0.33.5",
+    "tsx": "^4.19.3",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
-    "@types/node": "^22.14.1",
-    "tsx": "^4.19.3"
+    "@types/node": "^22.14.1"
   }
 }
