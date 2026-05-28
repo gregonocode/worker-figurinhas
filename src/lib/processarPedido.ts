@@ -39,7 +39,9 @@ async function montarImagemFinal(params: {
   }
 
   const nome = String(params.pedido.nome || "JOGADOR").trim().toUpperCase();
-  const profissao = String(params.pedido.peso || "").trim().toUpperCase();
+  const profissao = String(params.pedido.profissao || params.pedido.peso || "")
+    .trim()
+    .toUpperCase();
   const time = String(params.pedido.time || "BRASIL").trim().toUpperCase();
 
   const svgOverlay = `
@@ -157,13 +159,19 @@ export async function processarPedido(pedido: PedidoFigurinha) {
       buffer: imagemFinalBuffer,
     });
 
-    console.log(`[worker] Enviando e-mail ${pedido.id}...`);
+    if (pedido.origem !== "dashboard") {
+      console.log(`[worker] Enviando e-mail ${pedido.id}...`);
 
-    await enviarEmailFigurinha({
-      email: pedido.email,
-      nome,
-      imagemUrl: imagemFinalUrl,
-    });
+      await enviarEmailFigurinha({
+        email: pedido.email,
+        nome,
+        imagemUrl: imagemFinalUrl,
+      });
+    } else {
+      console.log(
+        `[worker] Pedido ${pedido.id} veio da dashboard. E-mail não enviado.`,
+      );
+    }
 
     const { error: updateError } = await supabase
       .from("pedidos_figurinhas")

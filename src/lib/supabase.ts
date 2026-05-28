@@ -31,6 +31,8 @@ export type PedidoFigurinha = {
   nome: string | null;
   time: string | null;
   peso: string | null;
+  origem: string | null;
+  profissao: string | null;
   imagem_original_url: string | null;
   imagem_final_url: string | null;
   status: string;
