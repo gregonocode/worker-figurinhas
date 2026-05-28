@@ -63,6 +63,10 @@ export async function claimProximoPedido() {
     throw error;
   }
 
+  if (!data || !data.id) {
+    return null;
+  }
+
   return data as PedidoFigurinha | null;
 }
 

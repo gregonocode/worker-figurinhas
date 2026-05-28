@@ -30,7 +30,7 @@ async function loop() {
 
       const pedido = await claimProximoPedido();
 
-      if (!pedido) {
+      if (!pedido || !pedido.id) {
         console.log("[worker] Nenhum pedido pago aguardando.");
       } else {
         console.log(`[worker] Pedido encontrado: ${pedido.id}`);
