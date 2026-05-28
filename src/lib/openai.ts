@@ -6,7 +6,7 @@ import sharp from "sharp";
 
 const openaiApiKey = process.env.OPENAI_API_KEY;
 const templateImagePath = fileURLToPath(
-  new URL("../assets/figurinha_base.png", import.meta.url),
+  new URL("../assets/figurinha_base_limpa.png", import.meta.url),
 );
 
 if (!openaiApiKey) {
@@ -122,6 +122,7 @@ Only edit the masked person area:
 4. Generate natural arms/hands only where the mask allows it
 5. Arms must match the existing yellow and green football shirt style
 6. Keep the pose natural, front-facing, and compatible with the original template
+7. Show the full upper body width inside the frame, including both arms, without cropping the sides
 
 Very important:
 - The right-side "BRA" letters must remain unchanged
@@ -141,7 +142,7 @@ Very important:
     prompt,
     input_fidelity: "high",
     quality: "medium",
-    size: "1024x1536",
+    size: "auto",
   });
 
   const base64 = result.data?.[0]?.b64_json;

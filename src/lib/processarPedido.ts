@@ -44,16 +44,13 @@ async function montarImagemFinal(params: {
 
   const svgOverlay = `
     <svg width="${largura}" height="${altura}" viewBox="0 0 1103 1426" xmlns="http://www.w3.org/2000/svg">
-      <rect x="220" y="1188" width="515" height="112" rx="18" fill="#128b8f"/>
-      <text x="477" y="1240" text-anchor="middle" font-family="Arial, sans-serif" font-size="${fontSize(nome, 36, 24, 20)}" font-weight="700" fill="#ffffff">
+      <text x="477" y="1232" text-anchor="middle" font-family="Arial, sans-serif" font-size="${fontSize(nome, 42, 24, 18)}" font-weight="700" fill="#ffffff">
         ${escapeXml(nome)}
       </text>
-      <text x="477" y="1288" text-anchor="middle" font-family="Arial, sans-serif" font-size="${fontSize(profissao, 31, 20, 18)}" font-weight="700" fill="#ffffff">
+      <text x="477" y="1288" text-anchor="middle" font-family="Arial, sans-serif" font-size="${fontSize(profissao, 34, 20, 20)}" font-weight="700" fill="#ffffff">
         ${escapeXml(profissao)}
       </text>
-
-      <rect x="220" y="1343" width="515" height="46" rx="12" fill="#128b8f"/>
-      <text x="477" y="1378" text-anchor="middle" font-family="Arial, sans-serif" font-size="${fontSize(time, 35, 22, 18)}" font-weight="700" fill="#ffffff">
+      <text x="477" y="1385" text-anchor="middle" font-family="Arial, sans-serif" font-size="${fontSize(time, 40, 22, 20)}" font-weight="700" fill="#ffffff">
         ${escapeXml(time)}
       </text>
     </svg>
