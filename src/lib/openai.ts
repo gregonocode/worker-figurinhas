@@ -39,9 +39,12 @@ async function createTemplateMask() {
   }
 
   const editableAreas = [
-    { x: 290, y: 360, width: 420, height: 420, rx: 210 },
-    { x: 80, y: 1170, width: 760, height: 145, rx: 46 },
-    { x: 75, y: 1335, width: 775, height: 75, rx: 34 },
+    // Cabeca + pescoco.
+    { x: 235, y: 210, width: 530, height: 610, rx: 240 },
+    // Braco/ombro esquerdo.
+    { x: 55, y: 650, width: 260, height: 430, rx: 120 },
+    // Braco/ombro direito.
+    { x: 700, y: 650, width: 210, height: 430, rx: 110 },
   ];
 
   const holes = editableAreas
@@ -97,41 +100,38 @@ export async function gerarImagemFigurinha(params: {
   const prompt = `
 Use Image A as the sticker template and preserve it almost exactly.
 
-Image A is the official layout reference and must remain visually the same:
+Image A is the main template. Keep the entire layout unchanged:
 - keep the same light blue background
-- keep the large green and yellow "26"
-- keep the white "FIFA" mark in the top-right
+- keep the large green and yellow number
+- keep the white mark in the top-right
 - keep the Brazil flag icon on the right
 - keep the vertical "BRA" letters on the right exactly as they are
-- keep the shirt, colors, sleeves, neck opening, logos, and body position
-- keep the bottom rounded text bars in the same blue/turquoise color
-- do not turn the text bars black
-- do not redesign the layout
-- do not change the composition
-- do not add any extra words or letters anywhere outside the intended text areas
+- keep the bottom rounded text bars exactly as they are
+- keep the shirt colors, logos, collar and body position as close as possible
+- do not change the color of the text bars
+- do not make any bar black
+- do not add, remove, or move any graphic element outside the masked person area
+- do not write any text anywhere
 
 Image B is the face reference of the person.
-Use Image B only to generate the person's head/face/hair and blend it naturally into the neck/body of Image A.
 
-Required changes only:
-1. Fill the missing head area with the person from Image B
-2. Add natural arms/hands if needed, matching the existing shirt and pose
-3. Replace the text inside the bottom text bars only
+Only edit the masked person area:
+1. Fill the missing head/face area using the person from Image B
+2. Match the person's face, hair, skin tone and general appearance
+3. Blend the head naturally into the existing neck/body
+4. Generate natural arms/hands only where the mask allows it
+5. Arms must match the existing yellow and green football shirt style
+6. Keep the pose natural, front-facing, and compatible with the original template
 
-Text to render:
-- Main name: "${params.nome}"
-- Secondary line: "${params.peso || ""}"
-- Bottom line: "${params.time}"
-
-Important constraints:
-- The background color behind the text must remain blue/turquoise, not black
+Very important:
 - The right-side "BRA" letters must remain unchanged
 - The Brazil flag area must remain unchanged
-- Do not write any extra text near the flag or on the side
-- Do not modify the large number 26
-- Do not change the shirt design
-- Keep the final image in the same vertical format
-- Keep the design as close as possible to Image A
+- Do not edit the bottom text bars
+- Do not write the person's name
+- Do not write the profession
+- Do not write the team
+- Do not add any extra letters or words
+- Preserve Image A as much as possible outside the masked area
 `.trim();
 
   const result = await openai.images.edit({

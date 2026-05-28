@@ -30,7 +30,62 @@ async function montarImagemFinal(params: {
   arteBuffer: Buffer;
   pedido: PedidoFigurinha;
 }) {
-  return await sharp(params.arteBuffer).png().toBuffer();
+  const metadata = await sharp(params.arteBuffer).metadata();
+  const largura = metadata.width;
+  const altura = metadata.height;
+
+  if (!largura || !altura) {
+    throw new Error("Nao foi possivel ler as dimensoes da arte gerada.");
+  }
+
+  const nome = String(params.pedido.nome || "JOGADOR").trim().toUpperCase();
+  const profissao = String(params.pedido.peso || "").trim().toUpperCase();
+  const time = String(params.pedido.time || "BRASIL").trim().toUpperCase();
+
+  const svgOverlay = `
+    <svg width="${largura}" height="${altura}" viewBox="0 0 1103 1426" xmlns="http://www.w3.org/2000/svg">
+      <rect x="220" y="1188" width="515" height="112" rx="18" fill="#128b8f"/>
+      <text x="477" y="1240" text-anchor="middle" font-family="Arial, sans-serif" font-size="${fontSize(nome, 36, 24, 20)}" font-weight="700" fill="#ffffff">
+        ${escapeXml(nome)}
+      </text>
+      <text x="477" y="1288" text-anchor="middle" font-family="Arial, sans-serif" font-size="${fontSize(profissao, 31, 20, 18)}" font-weight="700" fill="#ffffff">
+        ${escapeXml(profissao)}
+      </text>
+
+      <rect x="220" y="1343" width="515" height="46" rx="12" fill="#128b8f"/>
+      <text x="477" y="1378" text-anchor="middle" font-family="Arial, sans-serif" font-size="${fontSize(time, 35, 22, 18)}" font-weight="700" fill="#ffffff">
+        ${escapeXml(time)}
+      </text>
+    </svg>
+  `;
+
+  return await sharp(params.arteBuffer)
+    .composite([
+      {
+        input: Buffer.from(svgOverlay),
+        top: 0,
+        left: 0,
+      },
+    ])
+    .png()
+    .toBuffer();
+}
+
+function fontSize(value: string, base: number, min: number, maxChars: number) {
+  if (value.length <= maxChars) {
+    return base;
+  }
+
+  return Math.max(min, Math.floor((base * maxChars) / value.length));
+}
+
+function escapeXml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
 }
 
 async function marcarErro(pedidoId: string, error: unknown) {
